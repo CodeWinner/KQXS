@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">KQXS</string>
+    <string name="first_talk">Như mọi người biết xổ số là một dạng số ngẫu nhiên vô cùng khó đoán và hoàn toàn không có quy luật cụ thể.\n Vậy nên , việc dự đoán được kết quả sổ xố một cách chính xác nhất là vô cùng khó.Nhưng rõ ràng , xổ số là một dạng sắc xuất , mà sắc xuất thì vẫn có những quy luật của nó, mặc dù nó rất phức tạp.
+Đã có những nhà khoa học có thể tìm ra quy luật của sổ xố .\n Và dựa trên những nghiêm cứu khoa học đó chúng tôi đã tạo ra thuật toán để có thể tính toán kết quả xổ số .
+\n Chúng tôi không cam đoan rằng nó chính xác tuyệt đối .
+\n Nhưng chúng tôi tin rằng tỷ lệ chính xác dành cho lô đề của thuật toán này lên tới hơn 70% .</string>
+    <string name="first_note">Ứng dụng sẽ không thành công nếu không có sự phối hợp của các bạn. \n
+    1/ Đảm bảo kết nối internet.\n Chúng tôi sử hệ thống server khổng lồ đề chạy thuật toán tính toán , vậy nên việc đảm bảo kết nối internet để có thể giúp chúng tôi có thể tính toán một cách chính xác nhất.\n
+    2/ Hãy sử dụng ít nhất 3 lần trên ngày .\n Chúng tôi sử dụng AI cho công việc tính toán , vậy nên việc quay nhiều lần trong một ngày sẽ đưa ra những con số chính xác nhất. \n
+        Càng quay nhiều tỷ lệ chính xác càng cao.\n\nCuối cùng :  Hãy là một người đam mê với những con số một cách thông minh vì bạn còn có cả gia đình ở phía sau. </string>
+</resources>

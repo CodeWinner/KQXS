@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/colorGuide"
+    android:layout_height="match_parent"
+    tools:context=".WellComeActivity">
+
+    <LinearLayout
+        android:weightSum="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextWelcome"
+            android:layout_weight="0.1"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Hướng Dẫn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.032" />
+
+        <TextView
+            android:layout_weight="0.85"
+            android:fontFamily="casual"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextWelcome"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:padding="20dp"
+            android:text="@string/first_note"
+            android:textSize="15sp" />
+        <Button
+            android:id="@+id/btnNext"
+            android:fontFamily="casual"
+            android:background="@drawable/button_next_guide"
+            android:layout_marginBottom="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_gravity="right"
+            android:text="Next"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp" />
+    </LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
