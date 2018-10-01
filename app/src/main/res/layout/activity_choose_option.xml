@@ -18,18 +18,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <Spinner
+            android:id="@+id/spnArea"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_spiner"
             android:layout_width="200dp"
             android:layout_height="35dp">
         </Spinner>
         <Spinner
+            android:id="@+id/spnUnit"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_spiner"
             android:layout_width="200dp"
             android:layout_height="35dp">
         </Spinner>
+
         <Button
+            android:id="@+id/btnAction"
             android:fontFamily="casual"
             android:layout_marginTop="40dp"
             android:background="@drawable/button_choose_option"
@@ -37,5 +41,14 @@
             android:layout_width="200dp"
             android:layout_height="35dp" />
     </LinearLayout>
+    <TextView
+        android:layout_margin="5dp"
+        android:textSize="10dp"
+        android:fontFamily="monospace"
+        android:textColor="@color/colorGuide"
+        android:layout_gravity="bottom"
+        android:text="Lưu ý : mỗi lần quay kết quả có thể khác nhau, hãy lấy kết quả gần nhất."
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

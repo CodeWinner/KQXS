@@ -8,6 +8,8 @@ import android.widget.Button;
 
 public class GuideActivity extends AppCompatActivity {
     private Button btnNext;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,7 +19,11 @@ public class GuideActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Next page
-                Intent intentWC = new Intent(GuideActivity.this,GuideActivity.class);
+                Intent intentWC = new Intent(GuideActivity.this,ChooseOptionActivity.class);
+                startActivity(intentWC);
+
+                GuideActivity.this.finish();
+                overridePendingTransition(R.animator.slide_in_right,R.animator.slide_out_left);
             }
         });
     }
