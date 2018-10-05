@@ -8,4 +8,6 @@
     1/ Đảm bảo kết nối internet.\n Chúng tôi sử hệ thống server khổng lồ đề chạy thuật toán tính toán , vậy nên việc đảm bảo kết nối internet để có thể giúp chúng tôi có thể tính toán một cách chính xác nhất.\n
     2/ Hãy sử dụng ít nhất 3 lần trên ngày .\n Chúng tôi sử dụng AI cho công việc tính toán , vậy nên việc quay nhiều lần trong một ngày sẽ đưa ra những con số chính xác nhất. \n
         Càng quay nhiều tỷ lệ chính xác càng cao.\n\nCuối cùng :  Hãy là một người đam mê với những con số một cách thông minh vì bạn còn có cả gia đình ở phía sau. </string>
+    <string name="secon_note">Lưu ý : mỗi lần quay kết quả có thể khác nhau, hãy lấy kết quả gần nhất.</string>
+    <string name="not_qc">Bỏ ra 30s xem quảng cáo của bạn giúp team chúng tôi có đủ kinh phí để phát triển thuật toán tốt hơn, chính xác hơn.\nXin lỗi nếu bạn thấy phiền vì thông báo này.</string>
 </resources>

@@ -8,5 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorButtonNormal">#2196f3</item>
     </style>
-
+    <style name="FullHeightDialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

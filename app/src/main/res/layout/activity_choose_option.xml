@@ -40,8 +40,17 @@
             android:text="next"
             android:layout_width="200dp"
             android:layout_height="35dp" />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_marginTop="30dp"
+            android:id="@+id/progressBarLoad"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="22dp" />
     </LinearLayout>
     <TextView
+        android:id="@+id/textNote"
         android:layout_margin="5dp"
         android:textSize="10dp"
         android:fontFamily="monospace"
