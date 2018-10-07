@@ -1,9 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:weightSum="10"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ShowResultActivity">
+    <LinearLayout
+        android:padding="10dp"
+        android:orientation="vertical"
+        android:weightSum="10"
+        android:layout_weight="8"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="0.8"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:textColor="@color/colorGuide"
+                android:fontFamily="monospace"
+                android:textSize="17dp"
+                android:gravity="start|center"
+                android:text="Hiển thị kết quả tính toán"
+                android:layout_weight="9"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
 
-</android.support.constraint.ConstraintLayout>
+            <ProgressBar
+                android:id="@+id/progressBarShowRessult"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="0dp"
+                android:layout_gravity="center"
+                android:layout_height="25dp"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Đặc biệt"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:textColor="@color/colorGuide"
+                android:id="@+id/txt0"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải nhất"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt1"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải nhì"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt2"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải ba"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt3"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải tư"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt4"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải năm"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt5"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải sáu"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt6"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải bảy"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt7"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout8"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải tám"
+                android:layout_weight="2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/txt8"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:layout_weight="8"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TextView
+            android:id="@+id/txtNoteX"
+            android:textSize="13dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="start|center"
+            android:text="Bạn muốn tiếp tục không ?"
+            android:layout_weight="8"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btnYes"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="casual"
+            android:background="@drawable/button_submit_bg"
+            android:textSize="12dp"
+            android:text="Yes"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btnNo"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="casual"
+            android:background="@drawable/button_not_submit_bg"
+            android:textSize="12dp"
+            android:text="No"
+            android:layout_width="40dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:weightSum="10"
+        android:layout_weight="0.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <TextView
+            android:paddingLeft="10dp"
+            android:textColor="@color/colorGuideX"
+            android:textSize="10sp"
+            android:gravity="start|center"
+            android:text="Đánh giá , phản hồi ứng dụng giúp chúng tôi cải thiện sản phẩm tốt hơn."
+            android:layout_weight="9"
+            android:layout_width="0dp"
+            android:layout_height="match_parent" />
+
+        <ImageButton
+
+            android:id="@+id/ibtnRate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_submit_bg"
+            android:scaleType="fitCenter"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+    </LinearLayout>
+</LinearLayout>

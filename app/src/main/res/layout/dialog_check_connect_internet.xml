@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:background="@color/colorPrimary"
         android:textSize="30dp"
         android:id="@+id/textConnectDialog"
         android:layout_width="match_parent"
@@ -14,6 +15,7 @@
         android:gravity="center"
         android:text="Hi!" />
     <TextView
+        android:textColor="@color/black"
         android:fontFamily="casual"
         android:textAlignment="center"
         android:padding="20dp"

@@ -105,10 +105,10 @@ public class ProcessResultActivity extends AppCompatActivity {
             int jumpTime = maxPrcess * 1000 / 100;
             int process = jumpTime;
             int[] listTime2s = getListTime2s(5);
-            Log.i("listTime2s", listTime2s[0] + " --- " + listTime2s[1] + " --- " + listTime2s[2] + " --- " + listTime2s[3] + " --- " + listTime2s[4] + " --- ");
+            //Log.i("listTime2s", listTime2s[0] + " --- " + listTime2s[1] + " --- " + listTime2s[2] + " --- " + listTime2s[3] + " --- " + listTime2s[4] + " --- ");
             for (int i = 1; i < 101; i++) {
                 if (i == 99 || checkInArr(i, listTime2s) == true) {
-                    Log.i("concat", checkInArr(i, listTime2s) + "");
+                    //Log.i("concat", checkInArr(i, listTime2s) + "");
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
@@ -140,7 +140,7 @@ public class ProcessResultActivity extends AppCompatActivity {
             countProcessUpdate = values[0];
             jumpTimeUpdate = values[1];
             processUpdate = values[2];
-            Log.i("Result", "count : " + countProcessUpdate + "___jumpTime : " + jumpTimeUpdate + "____process : " + processUpdate);
+            //Log.i("Result", "count : " + countProcessUpdate + "___jumpTime : " + jumpTimeUpdate + "____process : " + processUpdate);
             progressBarCaculator.setMax(100);
 
             notifiProcess = (countProcessUpdate >= 1 && countProcessUpdate < 3) ? "Bắt đầu tính toán . ."
@@ -189,16 +189,19 @@ public class ProcessResultActivity extends AppCompatActivity {
                 countProcessString = 100 + "%";
                 txtCountProcess.setText(countProcessString);
                 txtProcess.setText(notifiProcess);
+                AcessData.PROCESS_SHOW = 1;
                 Intent intent = new Intent(ProcessResultActivity.this, ShowResultActivity.class);
                 startActivity(intent);
                 ProcessResultActivity.this.finish();
                 overridePendingTransition(R.animator.slide_in_left, R.animator.slide_out_right);
+
 
             } else {
                 notifiProcess = "Không thể hoàn thành. Kiểm tra kết nối internet...";
                 txtCountProcess.setText("Oops!");
                 txtProcess.setText(notifiProcess);
                 imageButtonContinue.setVisibility(View.VISIBLE);
+                AcessData.PROCESS_SHOW = 0;
             }
         }
     }

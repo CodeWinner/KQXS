@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -77,6 +79,11 @@ public class ChooseOptionActivity extends AppCompatActivity {
     private ArrayAdapter<String> spinerAreaAdapterUnitNam;
     public Dialog dialogProcess;
     private String stringNote = "Kiểm tra kết nối internet . ";
+    public AlertDialog.Builder alertDialogBuilder;
+
+    public int areaNumber = 0;
+    public int unitNumber = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,31 +114,43 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 android.R.layout.simple_expandable_list_item_1,
                 arrSounth);
 
+        SharedPreferences share = getSharedPreferences("KQXS", MODE_PRIVATE);
+        int area = share.getInt("AREA", 0);
+        int unit = share.getInt("UNIT", 0);
+        spnArea.setSelection(area);
+        spnUnit.setSelection(unit);
+
+
         spnArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 areaSelect = arrArea[position];
+                areaNumber = position;
 
                 if ("Miền Bắc".equals(areaSelect)) {
                     spnUnit.setVisibility(View.GONE);
+                    AcessData.AREA_CODE = 1;
 
                 } else {
                     spnUnit.setVisibility(View.VISIBLE);
 
                     if ("Miền Trung".equals(areaSelect)) {
-
-                        new ProcessLoadUnit(spnUnit,progressBarLoad,textNote).execute();
+                        AcessData.AREA_CODE = 2;
+                        new ProcessLoadUnit(spnUnit, progressBarLoad, textNote).execute();
                         spinerAreaAdapterUnitCentral.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                         spnUnit.setAdapter(spinerAreaAdapterUnitCentral);
-                    } else {
 
-                        new ProcessLoadUnit(spnUnit,progressBarLoad,textNote).execute();
+                    } else {
+                        AcessData.AREA_CODE = 3;
+                        new ProcessLoadUnit(spnUnit, progressBarLoad, textNote).execute();
                         spinerAreaAdapterUnitNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                         spnUnit.setAdapter(spinerAreaAdapterUnitNam);
+
                     }
                 }
 
             }
+
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -145,13 +164,53 @@ public class ChooseOptionActivity extends AppCompatActivity {
             }
         });
 
+        spnUnit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                unitNumber = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                new CheckInternet(ChooseOptionActivity.this,textNote).execute();
+                LayoutInflater li = LayoutInflater.from(ChooseOptionActivity.this);
+                View promptsView = li.inflate(R.layout.dialog_check_connect_internet,
+                        null);
+                alertDialogBuilder = new AlertDialog.Builder(
+                        ChooseOptionActivity.this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                // set prompts.xml to alertdialog builder
+                alertDialogBuilder.setView(promptsView);
+                Button btnOK = promptsView.findViewById(R.id.btnOkDialog);
+                btnOK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(ChooseOptionActivity.this, ProcessResultActivity.class);
+                        startActivity(intent);
+                        ChooseOptionActivity.this.finish();
+                        overridePendingTransition(R.animator.slide_in_bottom, R.animator.slide_out_top);
+                    }
+                });
+
+                //
+                SharedPreferences share = getSharedPreferences("KQXS", MODE_PRIVATE);
+                SharedPreferences.Editor editor = share.edit();
+                editor.putInt("AREA",areaNumber);
+                editor.putInt("UNIT",unitNumber);
+                editor.commit();
+                //
+                new CheckInternet(ChooseOptionActivity.this, textNote).execute();
+
             }
         });
+
+
     }
 
     public void closeDialog() {
@@ -159,23 +218,6 @@ public class ChooseOptionActivity extends AppCompatActivity {
     }
 
     public void showDialog() {
-        LayoutInflater li = LayoutInflater.from(this);
-        View promptsView = li.inflate(R.layout.dialog_check_connect_internet,
-                null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        // set prompts.xml to alertdialog builder
-        alertDialogBuilder.setView(promptsView);
-        Button btnOK = promptsView.findViewById(R.id.btnOkDialog);
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ChooseOptionActivity.this,ProcessResultActivity.class);
-                startActivity(intent);
-                ChooseOptionActivity.this.finish();
-                overridePendingTransition(R.animator.slide_in_bottom,R.animator.slide_out_top);
-            }
-        });
         alertDialogBuilder.show();
     }
 
@@ -184,16 +226,18 @@ public class ChooseOptionActivity extends AppCompatActivity {
         return (Runtime.getRuntime().exec(command).waitFor() == 0);
     }
 
-    public class ProcessLoadUnit extends AsyncTask<Void,Void,Void>{
+    public class ProcessLoadUnit extends AsyncTask<Void, Void, Void> {
 
         public Spinner spnUnit;
         public ProgressBar progressBarLoad;
         public TextView textNoteProcess;
-        public ProcessLoadUnit(Spinner spnUnit,ProgressBar progressBarLoad,TextView textNoteProcess){
+
+        public ProcessLoadUnit(Spinner spnUnit, ProgressBar progressBarLoad, TextView textNoteProcess) {
             this.spnUnit = spnUnit;
             this.progressBarLoad = progressBarLoad;
             this.textNoteProcess = textNoteProcess;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -201,11 +245,13 @@ public class ChooseOptionActivity extends AppCompatActivity {
             progressBarLoad.setVisibility(View.VISIBLE);
             textNoteProcess.setText(R.string.secon_note
             );
+
+            btnAction.setEnabled(false);
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            for(int i = 0;i < LOAD_TIME;i++){
+            for (int i = 0; i < LOAD_TIME; i++) {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -220,18 +266,22 @@ public class ChooseOptionActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             spnUnit.setVisibility(View.VISIBLE);
             progressBarLoad.setVisibility(View.GONE);
+            btnAction.setEnabled(true);
         }
     }
+
     public class CheckInternet extends AsyncTask<Void, String, Boolean> {
 
         int count = 0;
         String value = "";
         Activity contextParent;
         TextView textNoteProcess;
-        public CheckInternet(Activity contextParent,TextView textNoteProcess) {
+
+        public CheckInternet(Activity contextParent, TextView textNoteProcess) {
             this.contextParent = contextParent;
             this.textNoteProcess = textNoteProcess;
         }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -253,7 +303,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.getMessage();
             }
-            for(int i = 0; i < LOAD_INTERNET;i++) {
+            for (int i = 0; i < LOAD_INTERNET; i++) {
                 try {
                     count++;
                     switch (count) {
@@ -302,9 +352,9 @@ public class ChooseOptionActivity extends AppCompatActivity {
             super.onPostExecute(aBoolean);
             btnAction.setEnabled(true);
             progressBarLoad.setVisibility(View.GONE);
-            if(!aBoolean){
+            if (!aBoolean) {
                 textNoteProcess.setText("Không thể kết nối internet . Xin hãy kiểm tra lại !");
-            }else {
+            } else {
                 textNoteProcess.setText("Kết nối internet thành công.");
                 showDialog();
             }
