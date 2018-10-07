@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChooseOptionActivity" />
-        <activity android:name=".ProcessResultActivity"></activity>
+        <activity android:name=".ProcessResultActivity" />
+        <activity android:name=".ShowResultActivity"></activity>
     </application>
 
 </manifest>
