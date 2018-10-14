@@ -10,6 +10,14 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.io.IOException;
 import java.util.Random;
 
@@ -22,14 +30,44 @@ public class ProcessResultActivity extends AppCompatActivity {
     private TextView txtProcess;
     private ImageButton imageButtonContinue;
 
+    private AdView mAdView;
+
+    private InterstitialAd mInterstitialAd;
+
+    private InterstitialAd mInterstitialAd_video;
+    private Tracker mTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process_result);
+
+        // Add qc
+        MobileAds.initialize(this,
+                getString(R.string.id_app));
+        // Find Banner ad
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        // Display Banner ad
+        mAdView.loadAd(adRequest);
+//        // Qc video
+        mInterstitialAd_video = new InterstitialAd(this);
+        mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_video));
+        mInterstitialAd_video.loadAd(new AdRequest.Builder().build());
+
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.id_qc_all));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
         txtCountProcess = findViewById(R.id.txtCountProcess);
         progressBarCaculator = findViewById(R.id.progressBarCaculator);
         txtProcess = findViewById(R.id.txtProcess);
         imageButtonContinue = findViewById(R.id.imageButtonContinue);
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("ProcessResultActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         new RunProcess(txtCountProcess, progressBarCaculator, txtProcess).execute();
 
         imageButtonContinue.setOnClickListener(new View.OnClickListener() {
@@ -173,12 +211,19 @@ public class ProcessResultActivity extends AppCompatActivity {
                     : (countProcessUpdate >= 88 && countProcessUpdate < 94) ? "Đồng bộ hóa . . ."
                     : (countProcessUpdate >= 94 && countProcessUpdate < 101) ? "Hoàn thành." : "";
 
+
             txtProcess.setText(notifiProcess);
             countProcessString = countProcessUpdate + "%";
             txtCountProcess.setText(countProcessString);
 
             progressBarCaculator.setProgress(countProcessUpdate);
 
+            if(countProcessUpdate == 30 && mInterstitialAd.isLoaded()){
+                    mInterstitialAd.show();
+            }
+            if(countProcessUpdate == 70 && mInterstitialAd_video.isLoaded()) {
+                    mInterstitialAd_video.show();
+            }
         }
 
         @Override

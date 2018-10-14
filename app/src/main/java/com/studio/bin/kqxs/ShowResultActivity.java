@@ -1,6 +1,8 @@
 package com.studio.bin.kqxs;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,22 +13,46 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.Random;
 
 public class ShowResultActivity extends AppCompatActivity implements View.OnClickListener {
-    private ProgressBar progressBarShowRessult;
+        private ProgressBar progressBarShowRessult;
     private TextView txt0, txt1, txt2, txt3, txt4, txt5, txt6, txt7, txt8,txtNoteX;
     private LinearLayout layout8;
 
     private Button btnYes;
     private Button btnNo;
+
     private ImageButton ibtnRate;
 
+    private AdView mAdView;
+
+    private Tracker mTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_result);
+
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("ShowResultActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // Add qc
+        MobileAds.initialize(this,
+                "ca-app-pub-3940256099942544~3347511713");
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         btnYes = findViewById(R.id.btnYes);
         btnYes.setOnClickListener(this);
@@ -66,22 +92,47 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnYes:
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Play Continue")
+                        .setAction("Yes")
+                        .build());
                 Intent intent = new Intent(ShowResultActivity.this, ChooseOptionActivity.class);
                 startActivity(intent);
                 ShowResultActivity.this.finish();
                 overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
                 break;
             case R.id.btnNo:
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Play Continue")
+                        .setAction("No")
+                        .build());
                 ShowResultActivity.this.finish();
                 break;
             case R.id.ibtnRate:
+                launchMarket();
                 break;
         }
     }
 
-    @Override
+    private void launchMarket() {
+        Uri uri = Uri.parse("market://details?id=" + getPackageName());
+        Intent myAppLinkToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        try {
+            startActivity(myAppLinkToMarket);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Unable to find market app", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void onBackPressed() {
-        // Nothing
+        mTracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Play Continue")
+                .setAction("Yes")
+                .build());
+        Intent intent = new Intent(ShowResultActivity.this, ChooseOptionActivity.class);
+        startActivity(intent);
+        ShowResultActivity.this.finish();
+        overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
     }
 
     public class ShowResult extends AsyncTask<Void, String, Void> {

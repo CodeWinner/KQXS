@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +22,18 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.io.IOException;
+import java.util.Random;
 
 
 public class ChooseOptionActivity extends AppCompatActivity {
@@ -83,16 +95,49 @@ public class ChooseOptionActivity extends AppCompatActivity {
 
     public int areaNumber = 0;
     public int unitNumber = 0;
+    public int unit = 0;
 
+    private AdView mAdView;
+
+    private InterstitialAd mInterstitialAd_video;
+
+    private Tracker mTracker;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_option);
+
+        // Analys
+        // Obtain the shared Tracker instance.
+        AnalyticsApplication application = (AnalyticsApplication) getApplication();
+        mTracker = application.getDefaultTracker();
+        mTracker.setScreenName("ChooseOptionActivity");
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+
+        // Add qc
+        MobileAds.initialize(this,
+                getString(R.string.id_app));
+        // Initialize the Mobile Ads SDK
+        MobileAds.initialize(this,
+                getString(R.string.id_qc_test));
+
+        // Find Banner ad
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        // Display Banner ad
+        mAdView.loadAd(adRequest);
+
+        mInterstitialAd_video = new InterstitialAd(this);
+        mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_video));
+        mInterstitialAd_video.loadAd(new AdRequest.Builder().build());
+
         spnArea = findViewById(R.id.spnArea);
         spnUnit = findViewById(R.id.spnUnit);
         btnAction = findViewById(R.id.btnAction);
         textNote = findViewById(R.id.textNote);
         progressBarLoad = findViewById(R.id.progressBarLoad);
+
+
 
         final ArrayAdapter<String> spinerAreaAdapter = new ArrayAdapter<String>(
                 this,
@@ -116,9 +161,8 @@ public class ChooseOptionActivity extends AppCompatActivity {
 
         SharedPreferences share = getSharedPreferences("KQXS", MODE_PRIVATE);
         int area = share.getInt("AREA", 0);
-        int unit = share.getInt("UNIT", 0);
+        unit = share.getInt("UNIT", 0);
         spnArea.setSelection(area);
-        spnUnit.setSelection(unit);
 
 
         spnArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -131,6 +175,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
                     spnUnit.setVisibility(View.GONE);
                     AcessData.AREA_CODE = 1;
 
+
                 } else {
                     spnUnit.setVisibility(View.VISIBLE);
 
@@ -139,12 +184,15 @@ public class ChooseOptionActivity extends AppCompatActivity {
                         new ProcessLoadUnit(spnUnit, progressBarLoad, textNote).execute();
                         spinerAreaAdapterUnitCentral.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                         spnUnit.setAdapter(spinerAreaAdapterUnitCentral);
+                        spnUnit.setSelection(unit);
+
 
                     } else {
                         AcessData.AREA_CODE = 3;
                         new ProcessLoadUnit(spnUnit, progressBarLoad, textNote).execute();
                         spinerAreaAdapterUnitNam.setDropDownViewResource(android.R.layout.simple_list_item_single_choice);
                         spnUnit.setAdapter(spinerAreaAdapterUnitNam);
+                        spnUnit.setSelection(unit);
 
                     }
                 }
@@ -188,6 +236,8 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 // set prompts.xml to alertdialog builder
                 alertDialogBuilder.setView(promptsView);
                 Button btnOK = promptsView.findViewById(R.id.btnOkDialog);
+                TextView txtCaDao = promptsView.findViewById(R.id.txtCaDao);
+                txtCaDao.setText(getCaDao());
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -201,16 +251,82 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 //
                 SharedPreferences share = getSharedPreferences("KQXS", MODE_PRIVATE);
                 SharedPreferences.Editor editor = share.edit();
-                editor.putInt("AREA",areaNumber);
-                editor.putInt("UNIT",unitNumber);
+                editor.putInt("AREA", areaNumber);
+                editor.putInt("UNIT", unitNumber);
                 editor.commit();
                 //
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("AREA")
+                        .setAction(areaNumber+"")
+                        .build());
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("UNIT")
+                        .setAction(unitNumber+"")
+                        .build());
+
                 new CheckInternet(ChooseOptionActivity.this, textNote).execute();
 
             }
         });
 
 
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    public String getCaDao() {
+        Random random = new Random();
+        int temp = random.nextInt(16);
+        String cadao = "";
+        switch (temp) {
+            case 0:
+                cadao = getString(R.string.cadao_1);
+                break;
+            case 1:
+                cadao = getString(R.string.cadao_2);
+                break;
+            case 2:
+                cadao = getString(R.string.cadao_3);
+                break;
+            case 3:
+                cadao = getString(R.string.cadao_4);
+                break;
+            case 4:
+                cadao = getString(R.string.cadao_5);
+                break;
+            case 6:
+                cadao = getString(R.string.cadao_7);
+                break;
+            case 7:
+                cadao = getString(R.string.cadao_8);
+                break;
+            case 8:
+                cadao = getString(R.string.cadao_9);
+                break;
+            case 10:
+                cadao = getString(R.string.cadao_11);
+                break;
+            case 11:
+                cadao = getString(R.string.cadao_12);
+                break;
+            case 12:
+                cadao = getString(R.string.cadao_13);
+                break;
+            case 13:
+                cadao = getString(R.string.cadao_14);
+                break;
+            case 14:
+                cadao = getString(R.string.cadao_15);
+                break;
+            case 15:
+                cadao = getString(R.string.cadao_16);
+                break;
+        }
+        return cadao;
     }
 
     public void closeDialog() {
@@ -357,6 +473,9 @@ public class ChooseOptionActivity extends AppCompatActivity {
             } else {
                 textNoteProcess.setText("Kết nối internet thành công.");
                 showDialog();
+                if (mInterstitialAd_video.isLoaded()) {
+                    mInterstitialAd_video.show();
+                }
             }
         }
     }

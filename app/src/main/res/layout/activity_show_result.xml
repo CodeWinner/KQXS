@@ -2,285 +2,321 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:weightSum="10"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="10"
     tools:context=".ShowResultActivity">
+
     <LinearLayout
-        android:padding="10dp"
-        android:orientation="vertical"
-        android:weightSum="10"
-        android:layout_weight="8"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:weightSum="10">
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="0.8"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
-                android:textColor="@color/colorGuide"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="9"
                 android:fontFamily="monospace"
-                android:textSize="17dp"
                 android:gravity="start|center"
                 android:text="Hiển thị kết quả tính toán"
-                android:layout_weight="9"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:textColor="@color/colorGuide"
+                android:textSize="17dp" />
 
             <ProgressBar
                 android:id="@+id/progressBarShowRessult"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="0dp"
-                android:layout_gravity="center"
                 android:layout_height="25dp"
+                android:layout_gravity="center"
                 android:layout_weight="1" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Đặc biệt"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Đặc biệt" />
+
             <TextView
-                android:textColor="@color/colorGuide"
                 android:id="@+id/txt0"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <TextView
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải nhất"
-                android:layout_weight="2"
+                android:textColor="@color/colorGuide" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
+            <TextView
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center"
+                android:text="Giải nhất" />
+
             <TextView
                 android:id="@+id/txt1"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải nhì"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Giải nhì" />
+
             <TextView
                 android:id="@+id/txt2"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải ba"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Giải ba" />
+
             <TextView
                 android:id="@+id/txt3"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải tư"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Giải tư" />
+
             <TextView
                 android:id="@+id/txt4"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải năm"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Giải năm" />
+
             <TextView
                 android:id="@+id/txt5"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải sáu"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Giải sáu" />
+
             <TextView
                 android:id="@+id/txt6"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:layout_weight="8"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải bảy"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Giải bảy" />
+
             <TextView
                 android:id="@+id/txt7"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
-                android:layout_weight="8"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout8"
-            android:orientation="horizontal"
-            android:weightSum="10"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="10">
+
             <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
                 android:background="@drawable/bg_show_result"
                 android:gravity="center"
-                android:text="Giải tám"
-                android:layout_weight="2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:text="Giải tám" />
+
             <TextView
                 android:id="@+id/txt8"
-                android:background="@drawable/bg_show_result"
-                android:gravity="center"
-                android:layout_weight="8"
                 android:layout_width="0dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_weight="8"
+                android:background="@drawable/bg_show_result"
+                android:gravity="center" />
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
-        android:layout_marginLeft="10dp"
-        android:orientation="horizontal"
-        android:weightSum="10"
-        android:layout_weight="0.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_marginLeft="10dp"
+        android:layout_weight="0.5"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
         <TextView
             android:id="@+id/txtNoteX"
-            android:textSize="13dp"
-            android:textColor="@color/colorPrimaryDark"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
             android:gravity="start|center"
             android:text="Bạn muốn tiếp tục không ?"
-            android:layout_weight="8"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="13dp" />
+
         <Button
             android:id="@+id/btnYes"
-            android:layout_marginLeft="5dp"
-            android:fontFamily="casual"
-            android:background="@drawable/button_submit_bg"
-            android:textSize="12dp"
-            android:text="Yes"
             android:layout_width="40dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_submit_bg"
+            android:fontFamily="casual"
+            android:text="Yes"
+            android:textSize="12dp" />
+
         <Button
             android:id="@+id/btnNo"
-            android:layout_marginLeft="5dp"
-            android:fontFamily="casual"
-            android:background="@drawable/button_not_submit_bg"
-            android:textSize="12dp"
-            android:text="No"
             android:layout_width="40dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_not_submit_bg"
+            android:fontFamily="casual"
+            android:text="No"
+            android:textSize="12dp" />
     </LinearLayout>
+
     <LinearLayout
-        android:orientation="horizontal"
-        android:weightSum="10"
-        android:layout_weight="0.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
         <TextView
-            android:paddingLeft="10dp"
-            android:textColor="@color/colorGuideX"
-            android:textSize="10sp"
-            android:gravity="start|center"
-            android:text="Đánh giá , phản hồi ứng dụng giúp chúng tôi cải thiện sản phẩm tốt hơn."
-            android:layout_weight="9"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:gravity="start|center"
+            android:paddingLeft="10dp"
+            android:text="Đánh giá , phản hồi ứng dụng giúp chúng tôi cải thiện sản phẩm tốt hơn."
+            android:textColor="@color/colorGuideX"
+            android:textSize="10sp" />
 
         <ImageButton
 
@@ -293,4 +329,23 @@
             app:srcCompat="@android:drawable/btn_star_big_on" />
 
     </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp">
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/adView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center|bottom"
+            ads:adSize="BANNER"
+            ads:adUnitId="@string/id_qc_banner">
+
+        </com.google.android.gms.ads.AdView>
+    </LinearLayout>
+
 </LinearLayout>

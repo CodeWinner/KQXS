@@ -15,11 +15,11 @@
         android:gravity="center"
         android:text="Hi!" />
     <TextView
+        android:id="@+id/txtCaDao"
         android:textColor="@color/black"
         android:fontFamily="casual"
         android:textAlignment="center"
         android:padding="20dp"
-        android:text="@string/not_qc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
     <Button
