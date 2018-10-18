@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
@@ -50,10 +51,9 @@ public class ProcessResultActivity extends AppCompatActivity {
         // Display Banner ad
         mAdView.loadAd(adRequest);
 //        // Qc video
-        mInterstitialAd_video = new InterstitialAd(this);
-        mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_video));
+        mInterstitialAd_video = new InterstitialAd(ProcessResultActivity.this);
+        mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_all));
         mInterstitialAd_video.loadAd(new AdRequest.Builder().build());
-
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.id_qc_all));
@@ -121,6 +121,8 @@ public class ProcessResultActivity extends AppCompatActivity {
         public int jumpTimeUpdate = 0;
         public int processUpdate = 0;
 
+        boolean isShowAds = false;
+
         public RunProcess(TextView txtCountProcess, ProgressBar progressBarCaculator, TextView txtProcess) {
             this.txtCountProcess = txtCountProcess;
             this.progressBarCaculator = progressBarCaculator;
@@ -134,7 +136,7 @@ public class ProcessResultActivity extends AppCompatActivity {
             txtProcess.setText(notifiProcess);
             progressBarCaculator.setProgress(0);
             imageButtonContinue.setVisibility(View.GONE);
-
+            isShowAds = false;
         }
 
         @Override
@@ -143,6 +145,7 @@ public class ProcessResultActivity extends AppCompatActivity {
             int jumpTime = maxPrcess * 1000 / 100;
             int process = jumpTime;
             int[] listTime2s = getListTime2s(5);
+
             //Log.i("listTime2s", listTime2s[0] + " --- " + listTime2s[1] + " --- " + listTime2s[2] + " --- " + listTime2s[3] + " --- " + listTime2s[4] + " --- ");
             for (int i = 1; i < 101; i++) {
                 if (i == 99 || checkInArr(i, listTime2s) == true) {
@@ -222,7 +225,7 @@ public class ProcessResultActivity extends AppCompatActivity {
                     mInterstitialAd.show();
             }
             if(countProcessUpdate == 70 && mInterstitialAd_video.isLoaded()) {
-                    mInterstitialAd_video.show();
+                mInterstitialAd_video.show();
             }
         }
 

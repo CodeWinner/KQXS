@@ -1,12 +1,15 @@
 package com.studio.bin.kqxs;
 
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,6 +40,10 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     private AdView mAdView;
 
     private Tracker mTracker;
+
+    public AlertDialog.Builder alertDialogBuilder;
+
+    public boolean isRate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +96,33 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        LayoutInflater li = LayoutInflater.from(ShowResultActivity.this);
+        View promptsView = li.inflate(R.layout.dialog_rate,
+                null);
+        alertDialogBuilder = new AlertDialog.Builder(
+                this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+        Button btnOK = promptsView.findViewById(R.id.btnOkRating);
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchMarket();
+                SharedPreferences share = getSharedPreferences("RATE", MODE_PRIVATE);
+                SharedPreferences.Editor editor = share.edit();
+                editor.putBoolean("isRATE", true);
+                editor.commit();
+            }
+        });
+
+        SharedPreferences share = getSharedPreferences("RATE", MODE_PRIVATE);
+        isRate = share.getBoolean("isRATE", false);
+
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnYes:
@@ -133,6 +167,9 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         startActivity(intent);
         ShowResultActivity.this.finish();
         overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
+    }
+    public void showDialog() {
+        alertDialogBuilder.show();
     }
 
     public class ShowResult extends AsyncTask<Void, String, Void> {
@@ -443,6 +480,9 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
             progressBarShowRessult.setVisibility(View.GONE);
             btnYes.setEnabled(true);
             btnNo.setEnabled(true);
+            if(isRate == false){
+                showDialog();
+            }
         }
     }
 }

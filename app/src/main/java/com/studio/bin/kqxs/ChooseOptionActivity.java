@@ -118,8 +118,6 @@ public class ChooseOptionActivity extends AppCompatActivity {
         MobileAds.initialize(this,
                 getString(R.string.id_app));
         // Initialize the Mobile Ads SDK
-        MobileAds.initialize(this,
-                getString(R.string.id_qc_test));
 
         // Find Banner ad
         mAdView = findViewById(R.id.adView);
@@ -128,7 +126,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
 
         mInterstitialAd_video = new InterstitialAd(this);
-        mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_video));
+        mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_all));
         mInterstitialAd_video.loadAd(new AdRequest.Builder().build());
 
         spnArea = findViewById(R.id.spnArea);
@@ -281,7 +279,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
     public String getCaDao() {
         Random random = new Random();
         int temp = random.nextInt(16);
-        String cadao = "";
+        String cadao = "~ Good luck for you ~";
         switch (temp) {
             case 0:
                 cadao = getString(R.string.cadao_1);
@@ -325,6 +323,9 @@ public class ChooseOptionActivity extends AppCompatActivity {
             case 15:
                 cadao = getString(R.string.cadao_16);
                 break;
+        }
+        if("".equals(cadao)){
+            cadao = "~ Good luck for you ~";
         }
         return cadao;
     }
@@ -371,7 +372,6 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
             }
             return null;
