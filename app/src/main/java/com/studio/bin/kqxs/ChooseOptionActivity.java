@@ -129,6 +129,22 @@ public class ChooseOptionActivity extends AppCompatActivity {
         mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_all));
         mInterstitialAd_video.loadAd(new AdRequest.Builder().build());
 
+        // Set an AdListener.
+        mInterstitialAd_video.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                //Here set a flag to know that your
+            }
+
+            @Override
+            public void onAdClosed() {
+                // Proceed to the next activity.
+                Intent intent = new Intent(ChooseOptionActivity.this, ProcessResultActivity.class);
+                startActivity(intent);
+                ChooseOptionActivity.this.finish();
+                overridePendingTransition(R.animator.slide_in_bottom, R.animator.slide_out_top);
+            }
+        });
         spnArea = findViewById(R.id.spnArea);
         spnUnit = findViewById(R.id.spnUnit);
         btnAction = findViewById(R.id.btnAction);
@@ -161,7 +177,6 @@ public class ChooseOptionActivity extends AppCompatActivity {
         int area = share.getInt("AREA", 0);
         unit = share.getInt("UNIT", 0);
         spnArea.setSelection(area);
-
 
         spnArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -239,10 +254,14 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 btnOK.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(ChooseOptionActivity.this, ProcessResultActivity.class);
-                        startActivity(intent);
-                        ChooseOptionActivity.this.finish();
-                        overridePendingTransition(R.animator.slide_in_bottom, R.animator.slide_out_top);
+                        if (mInterstitialAd_video.isLoaded()) {
+                            mInterstitialAd_video.show();
+                        }else {
+                            Intent intent = new Intent(ChooseOptionActivity.this, ProcessResultActivity.class);
+                            startActivity(intent);
+                            ChooseOptionActivity.this.finish();
+                            overridePendingTransition(R.animator.slide_in_bottom, R.animator.slide_out_top);
+                        }
                     }
                 });
 
@@ -473,9 +492,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
             } else {
                 textNoteProcess.setText("Kết nối internet thành công.");
                 showDialog();
-                if (mInterstitialAd_video.isLoaded()) {
-                    mInterstitialAd_video.show();
-                }
+
             }
         }
     }

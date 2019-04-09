@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -44,6 +45,9 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     public AlertDialog.Builder alertDialogBuilder;
 
     public boolean isRate;
+
+    private InterstitialAd mInterstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +60,11 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         // Add qc
         MobileAds.initialize(this,
                 "ca-app-pub-3940256099942544~3347511713");
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.id_qc_video));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -482,6 +491,9 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
             btnNo.setEnabled(true);
             if(isRate == false){
                 showDialog();
+            }
+            if ( mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
             }
         }
     }

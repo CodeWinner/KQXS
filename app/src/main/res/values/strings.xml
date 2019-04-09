@@ -15,6 +15,7 @@
     <string name="id_qc_banner">ca-app-pub-6720811027803589/2834692615</string>
     <string name="id_qc_all">ca-app-pub-6720811027803589/9594298817</string>
 
+    <string name="thong_bao_update">Phiên bản ứng dụng này hiện tại đã lỗi thời, hãy cập nhật phiên bản mới để có kết quả tốt hơn.</string>
     <string name="id_qc_test_banner">ca-app-pub-3940256099942544/6300978111</string>
     <string name="id_qc_video_test">ca-app-pub-3940256099942544/8691691433</string>
     <string name="id_qc_all_test">ca-app-pub-3940256099942544/1033173712</string>

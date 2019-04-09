@@ -2,17 +2,17 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorGuide"
+    android:orientation="horizontal"
     tools:context=".ProcessResultActivity">
 
     <TextView
         android:id="@+id/txtCountProcess"
-        android:fontFamily="casual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="casual"
         android:text="100%"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/progressBarCaculator"
@@ -58,8 +58,6 @@
         tools:ignore="MissingConstraints" />
 
     <ImageButton
-        android:visibility="gone"
-        android:background="@drawable/button_submit_bg"
         android:id="@+id/imageButtonContinue"
         android:layout_width="80dp"
         android:layout_height="40dp"
@@ -68,10 +66,13 @@
         android:layout_marginTop="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:background="@drawable/button_submit_bg"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBarCaculator"
         app:srcCompat="@android:drawable/ic_menu_rotate" />
+
 
     <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
         android:id="@+id/adView"
@@ -92,5 +93,24 @@
         ads:layout_constraintEnd_toEndOf="parent"
         ads:layout_constraintStart_toStartOf="parent"
         ads:layout_constraintTop_toBottomOf="@+id/progressBarCaculator"
-        ads:layout_constraintVertical_bias="0.735"></com.google.android.gms.ads.AdView>
+        ads:layout_constraintVertical_bias="1.0"></com.google.android.gms.ads.AdView>
+
+    <Button
+        android:background="@drawable/button_next_guide"
+        android:id="@+id/btnNextResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Next"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageButtonContinue" />
+
 </android.support.constraint.ConstraintLayout>

@@ -30,7 +30,7 @@
             app:layout_constraintVertical_bias="0.032" />
 
         <TextView
-            android:layout_weight="0.85"
+            android:layout_weight="0.75"
             android:fontFamily="casual"
             android:textAlignment="center"
             android:textColor="@color/colorTextWelcome"
@@ -39,7 +39,10 @@
             android:padding="20dp"
             android:text="@string/first_note"
             android:textSize="15sp" />
+
+
         <Button
+            android:layout_weight="0.07"
             android:id="@+id/btnNext"
             android:fontFamily="casual"
             android:background="@drawable/button_next_guide"
@@ -48,8 +51,16 @@
             android:layout_gravity="right"
             android:text="Next"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="0dp"
             android:layout_marginRight="10dp" />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_weight="0.07"
+            android:layout_height="0dp" />
     </LinearLayout>
 
 

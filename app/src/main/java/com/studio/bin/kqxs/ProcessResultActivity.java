@@ -4,15 +4,14 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
@@ -30,13 +29,17 @@ public class ProcessResultActivity extends AppCompatActivity {
     private ProgressBar progressBarCaculator;
     private TextView txtProcess;
     private ImageButton imageButtonContinue;
-
     private AdView mAdView;
 
     private InterstitialAd mInterstitialAd;
 
+    private Button btnNextResult;
     private InterstitialAd mInterstitialAd_video;
     private Tracker mTracker;
+
+    // True is Next and False is back
+    private Boolean doBackOrNext = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,19 +49,32 @@ public class ProcessResultActivity extends AppCompatActivity {
         MobileAds.initialize(this,
                 getString(R.string.id_app));
         // Find Banner ad
+        btnNextResult = findViewById(R.id.btnNextResult);
+
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         // Display Banner ad
         mAdView.loadAd(adRequest);
-//        // Qc video
-        mInterstitialAd_video = new InterstitialAd(ProcessResultActivity.this);
-        mInterstitialAd_video.setAdUnitId(getString(R.string.id_qc_all));
-        mInterstitialAd_video.loadAd(new AdRequest.Builder().build());
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getString(R.string.id_qc_all));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
+        // Set an AdListener.
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdLoaded() {
+                //Here set a flag to know that your
+            }
+
+            @Override
+            public void onAdClosed() {
+                Intent intent = new Intent(ProcessResultActivity.this, ShowResultActivity.class);
+                startActivity(intent);
+                ProcessResultActivity.this.finish();
+                overridePendingTransition(R.animator.slide_in_left, R.animator.slide_out_right);
+            }
+        });
 
         txtCountProcess = findViewById(R.id.txtCountProcess);
         progressBarCaculator = findViewById(R.id.progressBarCaculator);
@@ -77,6 +93,19 @@ public class ProcessResultActivity extends AppCompatActivity {
             }
         });
 
+        btnNextResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    if (mInterstitialAd.isLoaded()) {
+                        mInterstitialAd.show();
+                    }else {
+                        Intent intent = new Intent(ProcessResultActivity.this, ShowResultActivity.class);
+                        startActivity(intent);
+                        ProcessResultActivity.this.finish();
+                        overridePendingTransition(R.animator.slide_in_left, R.animator.slide_out_right);
+                    }
+            }
+        });
     }
 
     public boolean isConnected() throws InterruptedException, IOException {
@@ -146,10 +175,8 @@ public class ProcessResultActivity extends AppCompatActivity {
             int process = jumpTime;
             int[] listTime2s = getListTime2s(5);
 
-            //Log.i("listTime2s", listTime2s[0] + " --- " + listTime2s[1] + " --- " + listTime2s[2] + " --- " + listTime2s[3] + " --- " + listTime2s[4] + " --- ");
             for (int i = 1; i < 101; i++) {
                 if (i == 99 || checkInArr(i, listTime2s) == true) {
-                    //Log.i("concat", checkInArr(i, listTime2s) + "");
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException e) {
@@ -181,7 +208,6 @@ public class ProcessResultActivity extends AppCompatActivity {
             countProcessUpdate = values[0];
             jumpTimeUpdate = values[1];
             processUpdate = values[2];
-            //Log.i("Result", "count : " + countProcessUpdate + "___jumpTime : " + jumpTimeUpdate + "____process : " + processUpdate);
             progressBarCaculator.setMax(100);
 
             notifiProcess = (countProcessUpdate >= 1 && countProcessUpdate < 3) ? "Bắt đầu tính toán . ."
@@ -221,12 +247,12 @@ public class ProcessResultActivity extends AppCompatActivity {
 
             progressBarCaculator.setProgress(countProcessUpdate);
 
-            if(countProcessUpdate == 30 && mInterstitialAd.isLoaded()){
-                    mInterstitialAd.show();
-            }
-            if(countProcessUpdate == 70 && mInterstitialAd_video.isLoaded()) {
-                mInterstitialAd_video.show();
-            }
+//            if (countProcessUpdate == 10  && mInterstitialAd.isLoaded()) {
+//                mInterstitialAd.show();
+//            }
+//            if(countProcessUpdate == 80 && mInterstitialAd_video.isLoaded()) {
+//                mInterstitialAd_video.show();
+//            }
         }
 
         @Override
@@ -238,11 +264,7 @@ public class ProcessResultActivity extends AppCompatActivity {
                 txtCountProcess.setText(countProcessString);
                 txtProcess.setText(notifiProcess);
                 AcessData.PROCESS_SHOW = 1;
-                Intent intent = new Intent(ProcessResultActivity.this, ShowResultActivity.class);
-                startActivity(intent);
-                ProcessResultActivity.this.finish();
-                overridePendingTransition(R.animator.slide_in_left, R.animator.slide_out_right);
-
+                btnNextResult.setVisibility(View.VISIBLE);
 
             } else {
                 notifiProcess = "Không thể hoàn thành. Kiểm tra kết nối internet...";
@@ -250,12 +272,13 @@ public class ProcessResultActivity extends AppCompatActivity {
                 txtProcess.setText(notifiProcess);
                 imageButtonContinue.setVisibility(View.VISIBLE);
                 AcessData.PROCESS_SHOW = 0;
+
             }
         }
     }
 
     @Override
     public void onBackPressed() {
-        // Nothing
+        // Do nothing
     }
 }
