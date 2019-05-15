@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -39,9 +40,7 @@ public class GuideActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
 
-                if (WellComeActivity.mInterstitialAd.isLoaded()) {
-                    WellComeActivity.mInterstitialAd.show();
-                } else {
+
 //                    // Proceed to the next activity.
 //                    // Next page
 //                    Intent intentWC = new Intent(GuideActivity.this, ChooseOptionActivity.class);
@@ -52,7 +51,7 @@ public class GuideActivity extends AppCompatActivity {
 
                     forceUpdate();
                 }
-            }
+
         });
 
         // Set an AdListener.
@@ -84,6 +83,7 @@ public class GuideActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         String currentVersion = packageInfo.versionName;
+        Log.i("VERSION","currentVersion : " + currentVersion);
         new ForceUpdateAsync(currentVersion,GuideActivity.this).execute();
     }
 
@@ -106,7 +106,7 @@ public class GuideActivity extends AppCompatActivity {
                         .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
                         .referrer("http://www.google.com")
                         .get()
-                        .select("div.hAyfc:nth-child(3) > span:nth-child(2) > div:nth-child(1) > span:nth-child(1)")
+                        .select("div.hAyfc:nth-child(4) > span:nth-child(2) > div:nth-child(1) > span:nth-child(1)")
                         .first()
                         .ownText();
 
@@ -120,6 +120,7 @@ public class GuideActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jsonObject) {
             progressBar.setVisibility(View.GONE);
             if(latestVersion!=null){
+                Log.i("VERSION","latestVersion : " + latestVersion);
                 if(!currentVersion.equalsIgnoreCase(latestVersion)){
                             showUpdateActivity();
                 }else {
@@ -140,11 +141,15 @@ public class GuideActivity extends AppCompatActivity {
 
         public void showChooseActivity(){
 
-            Intent intentWC = new Intent(GuideActivity.this, ChooseOptionActivity.class);
-            startActivity(intentWC);
+            if (WellComeActivity.mInterstitialAd.isLoaded()) {
+                WellComeActivity.mInterstitialAd.show();
+            } else {
+                Intent intentWC = new Intent(GuideActivity.this, ChooseOptionActivity.class);
+                startActivity(intentWC);
 
-            GuideActivity.this.finish();
-            overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
+                GuideActivity.this.finish();
+                overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
+            }
         }
     }
 }

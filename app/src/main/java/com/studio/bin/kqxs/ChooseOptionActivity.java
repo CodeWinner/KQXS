@@ -15,12 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
@@ -45,6 +47,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
     private Spinner spnUnit;
     private TextView textNote;
     private ProgressBar progressBarLoad;
+    private Button btnLuckyNumber;
     private final String[] arrArea = {"Miền Bắc", "Miền Trung", "Miền Nam"};
     private String[] arrSounth = {
             "Kiên Giang",
@@ -90,7 +93,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
     private ArrayAdapter<String> spinerAreaAdapterUnitCentral;
     private ArrayAdapter<String> spinerAreaAdapterUnitNam;
     public Dialog dialogProcess;
-    private String stringNote = "Kiểm tra kết nối internet . ";
+    private String stringNote = "Kiểm tra kết nối internet . . .";
     public AlertDialog.Builder alertDialogBuilder;
 
     public int areaNumber = 0;
@@ -119,6 +122,14 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 getString(R.string.id_app));
         // Initialize the Mobile Ads SDK
 
+        btnLuckyNumber = findViewById(R.id.btnLuckyNumber);
+        btnLuckyNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ChooseOptionActivity.this,
+                        "Tính năng đang phát triển. Trong các bản cập nhật sau. Cám ơn !",Toast.LENGTH_LONG).show();
+            }
+        });
         // Find Banner ad
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -491,8 +502,10 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 textNoteProcess.setText("Không thể kết nối internet . Xin hãy kiểm tra lại !");
             } else {
                 textNoteProcess.setText("Kết nối internet thành công.");
-                showDialog();
-
+                try {
+                    showDialog();
+                }catch (Exception e){
+                }
             }
         }
     }

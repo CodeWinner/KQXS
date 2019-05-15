@@ -61,7 +61,8 @@
 
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
 
-        <activity android:name=".UpdateActivity"></activity>
+        <activity android:name=".UpdateActivity" />
+        <activity android:name=".LuckyNumberActivity"></activity>
     </application>
 
 </manifest>

@@ -33,10 +33,14 @@ public class UpdateActivity extends AppCompatActivity {
         buttonSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UpdateActivity.this,ChooseOptionActivity.class);
-                startActivity(intent);
-                UpdateActivity.this.finish();
-                overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
+                if (WellComeActivity.mInterstitialAd.isLoaded()) {
+                    WellComeActivity.mInterstitialAd.show();
+                } else {
+                    Intent intent = new Intent(UpdateActivity.this, ChooseOptionActivity.class);
+                    startActivity(intent);
+                    UpdateActivity.this.finish();
+                    overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
+                }
             }
         });
     }

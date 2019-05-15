@@ -41,6 +41,16 @@
             android:layout_width="200dp"
             android:layout_height="35dp" />
 
+        <Button
+            android:id="@+id/btnLuckyNumber"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_submit_bg"
+            android:fontFamily="casual"
+            android:text="Con số may mắn của bạn hôm nay là gì ?"
+            android:textSize="9sp" />
+
         <ProgressBar
             android:visibility="gone"
             android:layout_marginTop="30dp"
