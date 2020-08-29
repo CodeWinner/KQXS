@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.support.multidex.MultiDex;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,17 +23,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -104,32 +106,52 @@ public class ChooseOptionActivity extends AppCompatActivity {
 
     private InterstitialAd mInterstitialAd_video;
 
-    private Tracker mTracker;
+    private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_option);
 
-        // Analys
-        // Obtain the shared Tracker instance.
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-        mTracker.setScreenName("ChooseOptionActivity");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         // Add qc
         MobileAds.initialize(this,
                 getString(R.string.id_app));
         // Initialize the Mobile Ads SDK
 
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String currentDateandTime = sdf.format(new Date());
+
+        final SharedPreferences shareLucky = getSharedPreferences("KQXS", MODE_PRIVATE);
+        final int luckyNumber = shareLucky.getInt("LUCKY_NUMBER", 0);
+        final String dateExecute = shareLucky.getString("DATE_EXE", null);
+
         btnLuckyNumber = findViewById(R.id.btnLuckyNumber);
-        btnLuckyNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ChooseOptionActivity.this,
-                        "Tính năng đang phát triển. Trong các bản cập nhật sau. Cám ơn !",Toast.LENGTH_LONG).show();
-            }
-        });
+
+        if (!currentDateandTime.equals(dateExecute)) {
+            btnLuckyNumber.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(ChooseOptionActivity.this, LuckyNumberActivity.class);
+                    startActivity(intent);
+                    ChooseOptionActivity.this.finish();
+                    overridePendingTransition(R.animator.slide_in_bottom, R.animator.slide_out_top);
+                }
+            });
+        } else {
+            btnLuckyNumber.setText("Con số may mắc hôm nay của bạn là : " + luckyNumber);
+            btnLuckyNumber.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(ChooseOptionActivity.this, "Quay lại vào ngày mai !", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        Intent intent = new Intent(ChooseOptionActivity.this, LuckyNumberService.class);
+        startService(intent);
+
         // Find Banner ad
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -282,22 +304,11 @@ public class ChooseOptionActivity extends AppCompatActivity {
                 editor.putInt("AREA", areaNumber);
                 editor.putInt("UNIT", unitNumber);
                 editor.commit();
-                //
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("AREA")
-                        .setAction(areaNumber+"")
-                        .build());
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("UNIT")
-                        .setAction(unitNumber+"")
-                        .build());
 
                 new CheckInternet(ChooseOptionActivity.this, textNote).execute();
 
             }
         });
-
-
     }
 
     @Override
@@ -365,7 +376,9 @@ public class ChooseOptionActivity extends AppCompatActivity {
     }
 
     public void showDialog() {
-        alertDialogBuilder.show();
+        if (alertDialogBuilder != null) {
+            alertDialogBuilder.show();
+        }
     }
 
     public boolean isConnected() throws InterruptedException, IOException {

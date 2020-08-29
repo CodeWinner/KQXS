@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,13 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.Random;
 
@@ -41,7 +40,6 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
     private AdView mAdView;
 
-    private Tracker mTracker;
 
     public AlertDialog.Builder alertDialogBuilder;
 
@@ -54,10 +52,6 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_result);
 
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-        mTracker.setScreenName("ShowResultActivity");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         // Add qc
         MobileAds.initialize(this,
                 "ca-app-pub-3940256099942544~3347511713");
@@ -112,7 +106,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         View promptsView = li.inflate(R.layout.dialog_rate,
                 null);
         alertDialogBuilder = new AlertDialog.Builder(
-                this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
         // set prompts.xml to alertdialog builder
         alertDialogBuilder.setView(promptsView);
         Button btnOK = promptsView.findViewById(R.id.btnOkRating);
@@ -136,20 +130,12 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnYes:
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("Play Continue")
-                        .setAction("Yes")
-                        .build());
                 Intent intent = new Intent(ShowResultActivity.this, ChooseOptionActivity.class);
                 startActivity(intent);
                 ShowResultActivity.this.finish();
                 overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
                 break;
             case R.id.btnNo:
-                mTracker.send(new HitBuilders.EventBuilder()
-                        .setCategory("Play Continue")
-                        .setAction("No")
-                        .build());
                 ShowResultActivity.this.finish();
                 break;
             case R.id.ibtnRate:
@@ -169,10 +155,6 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void onBackPressed() {
-        mTracker.send(new HitBuilders.EventBuilder()
-                .setCategory("Play Continue")
-                .setAction("Yes")
-                .build());
         Intent intent = new Intent(ShowResultActivity.this, ChooseOptionActivity.class);
         startActivity(intent);
         ShowResultActivity.this.finish();

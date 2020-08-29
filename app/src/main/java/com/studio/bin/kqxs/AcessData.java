@@ -13,4 +13,7 @@ public class AcessData {
      *
      */
     public static int PROCESS_SHOW = 0;
+
+    public static int LUCKY_NUMBER = 0;
+    public static int CAL_NUMBER = 0;
 }

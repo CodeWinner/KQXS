@@ -2,7 +2,6 @@ package com.studio.bin.kqxs;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,13 +9,13 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.io.IOException;
 import java.util.Random;
@@ -35,7 +34,6 @@ public class ProcessResultActivity extends AppCompatActivity {
 
     private Button btnNextResult;
     private InterstitialAd mInterstitialAd_video;
-    private Tracker mTracker;
 
     // True is Next and False is back
     private Boolean doBackOrNext = true;
@@ -80,10 +78,6 @@ public class ProcessResultActivity extends AppCompatActivity {
         progressBarCaculator = findViewById(R.id.progressBarCaculator);
         txtProcess = findViewById(R.id.txtProcess);
         imageButtonContinue = findViewById(R.id.imageButtonContinue);
-        AnalyticsApplication application = (AnalyticsApplication) getApplication();
-        mTracker = application.getDefaultTracker();
-        mTracker.setScreenName("ProcessResultActivity");
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
         new RunProcess(txtCountProcess, progressBarCaculator, txtProcess).execute();
 
         imageButtonContinue.setOnClickListener(new View.OnClickListener() {

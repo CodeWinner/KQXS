@@ -2,8 +2,9 @@ package com.studio.bin.kqxs;
 
 import android.content.Intent;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class LogoActivity extends AppCompatActivity {
     private static final int SPLASH_DISPLAY_TIME = 1500;
