@@ -25,8 +25,13 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
+
+import static com.studio.bin.kqxs.AcessData.LUCKY_NUMBER;
 
 public class ShowResultActivity extends AppCompatActivity implements View.OnClickListener {
         private ProgressBar progressBarShowRessult;
@@ -47,6 +52,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
     private InterstitialAd mInterstitialAd;
 
+    // Analys
+    private FirebaseAnalytics mFirebaseAnalytics;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +67,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
         mInterstitialAd.setAdUnitId(getString(R.string.id_qc_video));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
@@ -96,6 +104,24 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
             txtNoteX.setText("Click vào đây để quay .");
             btnNo.setVisibility(View.GONE);
         }
+
+        Date dt = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = dateFormat.format(dt);
+        SharedPreferences shareResult = getSharedPreferences("KQXS", MODE_PRIVATE);
+        String dateQuay = shareResult.getString("DATE_QUAY", "");
+        int countQuay = 0;
+
+        if (currentDate.equals(dateQuay)) {
+            countQuay = shareResult.getInt("COUNT_QUAY", 0);
+        }
+
+        countQuay++;
+        SharedPreferences share = getSharedPreferences("KQXS", MODE_PRIVATE);
+        SharedPreferences.Editor editor = share.edit();
+        editor.putString("DATE_QUAY", currentDate);
+        editor.putInt("COUNT_QUAY", countQuay);
+        editor.commit();
 
     }
 
@@ -162,6 +188,16 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
     }
     public void showDialog() {
         alertDialogBuilder.show();
+    }
+
+    private void firebaseAnalysClick(String event, String type) {
+
+        // [START image_view_event]
+        Bundle bundle = new Bundle();
+        bundle.putString("value", event);
+        bundle.putString("type", type);
+        mFirebaseAnalytics.logEvent(event, bundle);
+        bundle.clear();
     }
 
     public class ShowResult extends AsyncTask<Void, String, Void> {
@@ -288,6 +324,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                         case 8: // Giai dac biet
                             int awarddb = random.nextInt(100000);
                             result += String.format("%05d", awarddb);
+                            firebaseAnalysClick("lucky_number_" + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
 
                     }
@@ -380,6 +417,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                         case 9: // Giai dac biet
                             int awarddb = random.nextInt(1000000);
                             result += String.format("%05d", awarddb);
+                            firebaseAnalysClick("lucky_number_" + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
 
                     }
@@ -472,6 +510,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
             progressBarShowRessult.setVisibility(View.GONE);
             btnYes.setEnabled(true);
             btnNo.setEnabled(true);
+
             if(isRate == false){
                 try {
                     showDialog();

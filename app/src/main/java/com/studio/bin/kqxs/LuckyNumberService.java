@@ -33,6 +33,8 @@ public class LuckyNumberService extends Service {
     @Override
     public void onCreate() {
         luckyNumberList = new ArrayList<>();
+
+        setDefaultLuckyNumber();
         super.onCreate();
     }
 
@@ -40,8 +42,6 @@ public class LuckyNumberService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Thread timer = new Thread() {
             public void run(){
-                setDefaultLuckyNumber();
-
 
                 while (true) {
                     try {
@@ -55,8 +55,9 @@ public class LuckyNumberService extends Service {
                         i++;
                         CAL_NUMBER = i;
                         Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    } catch (Exception e) {
+                        Random rand = new Random();
+                        LUCKY_NUMBER = rand.nextInt(BOUND_LUCKY);
                     }
                 }
 
@@ -69,11 +70,12 @@ public class LuckyNumberService extends Service {
 
     @Override
     public void onDestroy() {
+
         super.onDestroy();
     }
 
     private void setDefaultLuckyNumber(){
-        for (int i =0; i < 100; i++) {
+        for (int i = 0; i < 100; i++) {
             luckyNumberList.add(0);
         }
     }
@@ -91,7 +93,7 @@ public class LuckyNumberService extends Service {
 
     public int getMax(){
         int max = Integer.MIN_VALUE;
-        for(int i=0; i < luckyNumberList.size(); i++){
+        for(int i = 0; i < luckyNumberList.size(); i++){
             if(luckyNumberList.get(i) > max){
                 max = luckyNumberList.get(i);
             }

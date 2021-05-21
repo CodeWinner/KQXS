@@ -41,15 +41,6 @@ public class GuideActivity extends AppCompatActivity {
             public void onClick(View v) {
                 progressBar.setVisibility(View.VISIBLE);
 
-
-//                    // Proceed to the next activity.
-//                    // Next page
-//                    Intent intentWC = new Intent(GuideActivity.this, ChooseOptionActivity.class);
-//                    startActivity(intentWC);
-//
-//                    GuideActivity.this.finish();
-//                    overridePendingTransition(R.animator.slide_in_right, R.animator.slide_out_left);
-
                     forceUpdate();
                 }
 
@@ -84,7 +75,6 @@ public class GuideActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         String currentVersion = packageInfo.versionName;
-        Log.i("VERSION","currentVersion : " + currentVersion);
         new ForceUpdateAsync(currentVersion,GuideActivity.this).execute();
     }
 
@@ -121,7 +111,6 @@ public class GuideActivity extends AppCompatActivity {
         protected void onPostExecute(JSONObject jsonObject) {
             progressBar.setVisibility(View.GONE);
             if(latestVersion!=null){
-                Log.i("VERSION","latestVersion : " + latestVersion);
                 if(!currentVersion.equalsIgnoreCase(latestVersion)){
                             showUpdateActivity();
                 }else {

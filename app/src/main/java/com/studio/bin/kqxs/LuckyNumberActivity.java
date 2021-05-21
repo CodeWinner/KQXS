@@ -69,10 +69,13 @@ public class LuckyNumberActivity extends AppCompatActivity {
         // Display Banner ad
         mAdView.loadAd(adRequest);
 
-        mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId(getString(R.string.id_qc_all));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+//        mInterstitialAd = new InterstitialAd(this);
+//        mInterstitialAd.setAdUnitId(getString(R.string.id_qc_all));
+//        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getString(R.string.id_qc_video));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -131,7 +134,7 @@ public class LuckyNumberActivity extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                if (mInterstitialAd != null) {
+                                if (mInterstitialAd.isLoaded()) {
                                     mInterstitialAd.show();
                                 }
                             }
@@ -307,7 +310,7 @@ public class LuckyNumberActivity extends AppCompatActivity {
             super.onPostExecute(aBoolean);
 
             if (aBoolean) {
-                if (mInterstitialAd != null) {
+                if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
                 }
 

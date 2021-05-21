@@ -170,6 +170,7 @@ public class ProcessResultActivity extends AppCompatActivity {
             int[] listTime2s = getListTime2s(5);
 
             for (int i = 1; i < 101; i++) {
+
                 if (i == 99 || checkInArr(i, listTime2s) == true) {
                     try {
                         Thread.sleep(2000);
@@ -179,12 +180,17 @@ public class ProcessResultActivity extends AppCompatActivity {
                 }
                 try {
 
-                    if (isConnected()) {
-                        publishProgress(i, jumpTime, process * i);
-                    } else {
-                        publishProgress(i, jumpTime, process * i);
+//                    if (isConnected()) {
+//                        publishProgress(i, jumpTime, process * i);
+//                    } else {
+//                        publishProgress(i, jumpTime, process * i);
+//                        return false;
+//                    }
+                    if (i == 1 && !isConnected()) {
                         return false;
                     }
+                    publishProgress(i, jumpTime, process * i);
+
                     Thread.sleep(jumpTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();

@@ -14,7 +14,9 @@
     <color name="colorTextGide">#fbe9e7</color>
     //
     <color name="colorBoderSpiner">#fafafa</color>
-
+    <color name="PB1">#8ac0de</color>
+    <color name="PB2">#F2CF59</color>
+    <color name="PB3">#FA6e4f</color>
     //
     <color name="black">#000000</color>
 </resources>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WellComeActivity">
+
+    <LinearLayout
+        android:weightSum="1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginTop="10dp"
+            android:fontFamily="casual"
+            android:textAlignment="center"
+            android:textColor="@color/colorTextWelcome"
+            android:layout_weight="0.1"
+            android:layout_gravity="center"
+            android:textSize="30sp"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Nâng VIP"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.032" />
+
+        <TextView
+            android:id="@+id/txtGuideDonate"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.75"
+            android:fontFamily="casual"
+            android:padding="20dp"
+            android:text="Bạn cần số tiền nho nhỏ.\nĐể nâng cấp phiên bản VIP của ứng dụng loại bỏ quảng cáo, thuật toán tính toán chính xác hơn và nhanh hơn gấp 4 lần.\nBạn có muốn nâng cấp không ?  "
+            android:textAlignment="viewStart"
+            android:textColor="@color/colorTextWelcome"
+            android:textSize="15sp" />
+
+<!--        android:text="Bạn hôm nay có trúng thưởng theo gợi ý của \nchúng tôi không ?\nNếu có : hãy tiếp tục thực hiện các bước tiếp theo.\nNếu không : Hãy quay lại khi bạn trúng !"-->
+        <LinearLayout
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="0.07">
+            <Button
+                android:layout_marginRight="50dp"
+                android:id="@+id/btnNoDonate"
+                android:fontFamily="casual"
+                android:background="@drawable/button_next_guide"
+                android:text="Không"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+            <Button
+                android:layout_marginLeft="50dp"
+                android:id="@+id/btnYesDonate"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/button_next_wellcome"
+                android:fontFamily="casual"
+                android:text="Có" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

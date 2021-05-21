@@ -7,14 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.CountDownTimer;
-import android.support.multidex.MultiDex;
+import android.os.Handler;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,20 +21,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.multidex.MultiDex;
 
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseException;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+
+import nl.dionsegijn.konfetti.KonfettiView;
+import nl.dionsegijn.konfetti.models.Shape;
+import nl.dionsegijn.konfetti.models.Size;
 
 
 public class ChooseOptionActivity extends AppCompatActivity {
@@ -50,6 +57,9 @@ public class ChooseOptionActivity extends AppCompatActivity {
     private TextView textNote;
     private ProgressBar progressBarLoad;
     private Button btnLuckyNumber;
+    private Button btnDonate;
+    private Button btnShowKqxs;
+
     private final String[] arrArea = {"Miền Bắc", "Miền Trung", "Miền Nam"};
     private String[] arrSounth = {
             "Kiên Giang",
@@ -102,15 +112,121 @@ public class ChooseOptionActivity extends AppCompatActivity {
     public int unitNumber = 0;
     public int unit = 0;
 
+    private Button btnNoSo;
     private AdView mAdView;
 
     private InterstitialAd mInterstitialAd_video;
 
+    private FirebaseDatabase database;
+    private KonfettiView konfettiView;
     private FirebaseAnalytics mFirebaseAnalytics;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_option);
+
+        textNote = findViewById(R.id.textNote);
+        btnNoSo = findViewById(R.id.btnNoSo);
+        konfettiView = findViewById(R.id.konfettiView);
+
+        btnShowKqxs = findViewById(R.id.btnShowKqxs);
+
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("kqxs");
+
+
+        Date dt = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        final String currentDate = dateFormat.format(dt);
+
+        SharedPreferences shareResult = getSharedPreferences("KQXS", MODE_PRIVATE);
+        String dateQuay = shareResult.getString("DATE_QUAY", "");
+
+        int countQuay = 0;
+
+        if (currentDate.equals(dateQuay)) {
+            countQuay = shareResult.getInt("COUNT_QUAY", 0);
+        }
+
+        if ((3 - countQuay) > 0) {
+            btnNoSo.setText("SOI CẦU (" + (3 - countQuay) + ")");
+        } else {
+            btnNoSo.setText("SOI CẦU");
+        }
+
+        final int finalCountQuay = countQuay;
+        btnNoSo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (finalCountQuay >= 3) {
+                    final SharedPreferences shareResult = getSharedPreferences("KQXS", MODE_PRIVATE);
+                    final String dateNo = shareResult.getString("DATE_RS", "");
+                    final String valueRs = shareResult.getString("VALUE_RS", "");
+
+                    if (currentDate.equals(dateNo)) {
+                       // showDialogNoSo(dateNo, valueRs);
+                        textNote.setText("Bạn cần nâng cấp VIP để mở khóa tính năng này !");
+                    } else {
+                        textNote.setText("Hãy quay lại vào khoảng thời gian từ 16h20 - 17h hằng ngày !");
+                    }
+                } else {
+                    textNote.setText("Bạn cần thực hiện quay số ít nhất 3 lần và nâng cấp VIP để mở khóa tính năng này !");
+                }
+            }
+        });
+
+        btnShowKqxs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChooseOptionActivity.this, ShowKqxsActivity.class);
+                startActivity(intent);
+                ChooseOptionActivity.this.finish();
+                overridePendingTransition(R.animator.slide_in_right,R.animator.slide_out_left);
+            }
+        });
+
+        //textNote.setText("Value is: " + dateNo + " - " + valueRs);
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                KetQuaDto value = new KetQuaDto();
+                try {
+                    value = dataSnapshot.getValue(KetQuaDto.class);
+                } catch (DatabaseException exception) {
+
+                }
+
+                // set messae
+                if (value.getMessage() != null && value.getMessage() != "") {
+                   textNote.setText(value.getMessage());
+                }
+
+                final SharedPreferences shareResult = getSharedPreferences("KQXS", MODE_PRIVATE);
+                final String id = shareResult.getString("NO_RS", "");
+
+                if(!id.equals(value.getNo())) {
+
+                    SharedPreferences share = getSharedPreferences("KQXS", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = share.edit();
+                    editor.putString("NO_RS", value.getNo());
+                    editor.putString("DATE_RS", value.getDate());
+                    editor.putString("VALUE_RS", value.getValue());
+                    editor.commit();
+                }
+                //Log.i("DB_FB", "Value is: " + value.getValue() + " - " + value.getDate());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.i("DB_FB", "Failed to read value.", error.toException());
+            }
+        });
 
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -128,6 +244,17 @@ public class ChooseOptionActivity extends AppCompatActivity {
         final String dateExecute = shareLucky.getString("DATE_EXE", null);
 
         btnLuckyNumber = findViewById(R.id.btnLuckyNumber);
+        btnDonate = findViewById(R.id.btnDonate);
+
+        btnDonate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ChooseOptionActivity.this, DonatGuideActivity.class);
+                startActivity(intent);
+                ChooseOptionActivity.this.finish();
+                overridePendingTransition(R.animator.slide_in_bottom, R.animator.slide_out_top);
+            }
+        });
 
         if (!currentDateandTime.equals(dateExecute)) {
             btnLuckyNumber.setOnClickListener(new View.OnClickListener() {
@@ -311,6 +438,48 @@ public class ChooseOptionActivity extends AppCompatActivity {
         });
     }
 
+
+    private void showDialogNoSo(final String date, final String value) {
+        LayoutInflater li = LayoutInflater.from(ChooseOptionActivity.this);
+        View promptsView = li.inflate(R.layout.dialog_no_so,
+                null);
+        alertDialogBuilder = new AlertDialog.Builder(
+                this, AlertDialog.THEME_DEVICE_DEFAULT_DARK);
+        // set prompts.xml to alertdialog builder
+        alertDialogBuilder.setView(promptsView);
+
+        final TextView textDateNS = promptsView.findViewById(R.id.dateNoSo);
+        final TextView textValueNS = promptsView.findViewById(R.id.valueNoSo);
+        textDateNS.setVisibility(View.GONE);
+        textValueNS.setVisibility(View.GONE);
+        final ProgressBar progressBarNS = promptsView.findViewById(R.id.progressBarNS);
+        progressBarNS.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBarNS.setVisibility(View.GONE);
+                textDateNS.setText("Nổ số ngày : " + date);
+                textValueNS.setText(value);
+                textDateNS.setVisibility(View.VISIBLE);
+                textValueNS.setVisibility(View.VISIBLE);
+
+                konfettiView.build()
+                        .addColors(getApplicationContext().getResources().getColor(R.color.PB1),
+                                getApplicationContext().getResources().getColor(R.color.PB2),
+                                getApplicationContext().getResources().getColor(R.color.PB3))
+                        .setDirection(0.0, 359.0)
+                        .setSpeed(1f, 5f)
+                        .setFadeOutEnabled(true)
+                        .setTimeToLive(2000L)
+                        .addShapes(Shape.Square.INSTANCE, Shape.Circle.INSTANCE)
+                        .addSizes(new Size(12, 5f))
+                        .setPosition(-50f, konfettiView.getWidth() + 50f, -50f, -50f)
+                        .streamFor(300, 5000L);
+            }
+        }, 3000);
+        alertDialogBuilder.show();
+    }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -319,50 +488,56 @@ public class ChooseOptionActivity extends AppCompatActivity {
 
     public String getCaDao() {
         Random random = new Random();
-        int temp = random.nextInt(16);
-        String cadao = "~ Good luck for you ~";
+        int temp = random.nextInt(17);
+        String cadao = "~ Chúc bạn may mắn ! ~";
         switch (temp) {
-            case 0:
-                cadao = getString(R.string.cadao_1);
-                break;
             case 1:
                 cadao = getString(R.string.cadao_2);
                 break;
             case 2:
-                cadao = getString(R.string.cadao_3);
-                break;
-            case 3:
                 cadao = getString(R.string.cadao_4);
                 break;
-            case 4:
-                cadao = getString(R.string.cadao_5);
-                break;
-            case 6:
+            case 3:
                 cadao = getString(R.string.cadao_7);
                 break;
-            case 7:
+            case 4:
                 cadao = getString(R.string.cadao_8);
                 break;
-            case 8:
+            case 5:
                 cadao = getString(R.string.cadao_9);
                 break;
-            case 10:
+            case 6:
                 cadao = getString(R.string.cadao_11);
                 break;
-            case 11:
+            case 7:
                 cadao = getString(R.string.cadao_12);
                 break;
-            case 12:
+            case 8:
                 cadao = getString(R.string.cadao_13);
                 break;
-            case 13:
+            case 9:
                 cadao = getString(R.string.cadao_14);
                 break;
-            case 14:
+            case 10:
                 cadao = getString(R.string.cadao_15);
                 break;
-            case 15:
+            case 11:
                 cadao = getString(R.string.cadao_16);
+                break;
+            case 12:
+                cadao = "Mẹo : Quay ít nhất 3 lần mỗi ngày giúp tính toán chính xác hơn !";
+                break;
+            case 13:
+                cadao = "Mẹo : Soi cầu là tính năng tuyệt vời dành cho phiên bản VIP mà chúng tôi cung cấp . Những con số có tính chính xác cao mà chúng tôi gợi ý cho tất cả mọi người ở phiên bản VIP!";
+                break;
+            case 14:
+                cadao = "Mẹo : Tất cả kết quả con số ở tính năng NỔ SỐ ở tất cả các máy đều giống nhau !";
+                break;
+            case 15:
+                cadao = "Mẹo : Nâng cấp VIP giúp loại bỏ quảng cáo và tăng tốc độ xử lý nhanh hơn gấp 4 lần !";
+                break;
+            case 16:
+                cadao = "Mẹo : Đón chờ tính năng nổ số vào khung giờ 16h20 - 17h hằng ngày!";
                 break;
         }
         if("".equals(cadao)){

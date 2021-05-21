@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.studio.bin.kqxs">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
+        <activity android:name=".ShowKqxsActivity"></activity>
+        <activity
+            android:name=".DonatGuideActivity"
+            android:label="@string/title_activity_donat_guide"
+            android:theme="@style/NoActionBar" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/id_app" />
+
         <service
             android:name=".LuckyNumberService"
             android:enabled="true"
-            android:exported="true"></service>
-        <service android:name="com.studio.bin.kqxs.FirebaseCloudMessage">
+            android:exported="true" />
+        <service android:name=".FirebaseCloudMessage">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity android:name=".WellComeActivity" />
         <activity android:name=".GuideActivity" />
         <activity android:name=".LogoActivity">
@@ -39,7 +50,6 @@
         <activity android:name=".ChooseOptionActivity" />
         <activity android:name=".ProcessResultActivity" />
         <activity android:name=".ShowResultActivity" />
-
         <activity android:name=".UpdateActivity" />
         <activity android:name=".LuckyNumberActivity" />
     </application>
