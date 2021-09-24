@@ -13,7 +13,7 @@ public final class NetworkProvider {
     public static Retrofit getInstance() {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.101:3000")
+                    .baseUrl("http://103.110.86.155:3000")
                     .client(new OkHttpClient.Builder().build())
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()))
                     .build();

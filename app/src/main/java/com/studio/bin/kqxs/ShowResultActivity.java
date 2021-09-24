@@ -218,20 +218,22 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                 for (int i = 1; i <= 8; i++) {
                     switch (i) {
                         case 1: // Giai 7
-                            int award71 = random.nextInt(10);
+                            int award71 = random.nextInt(100);
                             result += String.format("%02d", award71);
                             result += " - ";
 
-                            int award72 = random.nextInt(10);
+                            int award72 = random.nextInt(100);
                             result += String.format("%02d", award72);
                             result += " - ";
 
-                            int award73 = random.nextInt(10);
+                            int award73 = random.nextInt(100);
                             result += String.format("%02d", award73);
                             result += " - ";
 
                             int award74 = random.nextInt(100);
                             result += String.format("%02d", award74);
+                            firebaseAnalysClick("lucky_number_"
+                                    + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
                         case 2: //giai 6
                             int award61 = random.nextInt(1000);
@@ -244,6 +246,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
                             int award63 = random.nextInt(1000);
                             result += String.format("%03d", award63);
+                            firebaseAnalysClick("lucky_number_"
+                                    + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
                         case 3: // Giai 5
                             int award51 = random.nextInt(10000);
@@ -268,6 +272,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
                             int award56 = random.nextInt(10000);
                             result += String.format("%04d", award56);
+                            firebaseAnalysClick("lucky_number_"
+                                    + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
                         case 4: // Giai 4
                             int award41 = random.nextInt(10000);
@@ -284,6 +290,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
                             int award44 = random.nextInt(10000);
                             result += String.format("%04d", award44);
+                            firebaseAnalysClick("lucky_number_"
+                                    + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
                         case 5: // Giai 3
                             int award31 = random.nextInt(100000);
@@ -308,6 +316,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
                             int award36 = random.nextInt(100000);
                             result += String.format("%05d", award36);
+                            firebaseAnalysClick("lucky_number_"
+                                    + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
                         case 6: // Giai 1
                             int award21 = random.nextInt(100000);
@@ -316,6 +326,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
 
                             int award22 = random.nextInt(100000);
                             result += String.format("%05d", award22);
+                            firebaseAnalysClick("lucky_number_"
+                                    + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
                         case 7: // Giai 1
                             int award1 = random.nextInt(100000);
@@ -324,7 +336,8 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                         case 8: // Giai dac biet
                             int awarddb = random.nextInt(100000);
                             result += String.format("%05d", awarddb);
-                            firebaseAnalysClick("lucky_number_" + result.substring(result.length()-2, result.length()), "lucky_number");
+                            firebaseAnalysClick("lucky_number_"
+                                    + result.substring(result.length()-2, result.length()), "lucky_number");
                             break;
 
                     }
@@ -346,7 +359,7 @@ public class ShowResultActivity extends AppCompatActivity implements View.OnClic
                 for (int i = 1; i <= 9; i++) {
                     switch (i) {
                         case 1: // Giai 8
-                            int award81 = random.nextInt(10);
+                            int award81 = random.nextInt(100);
                             result += String.format("%02d", award81);
                             break;
                         case 2: //giai 7

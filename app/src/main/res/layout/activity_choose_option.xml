@@ -83,7 +83,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/button_choose_option"
             android:fontFamily="casual"
-            android:text="Soi cầu"
+            android:text="Nổ Số"
             android:textSize="9sp" />
 
         <ProgressBar

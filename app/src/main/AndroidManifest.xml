@@ -50,7 +50,6 @@
         <activity android:name=".ChooseOptionActivity" />
         <activity android:name=".ProcessResultActivity" />
         <activity android:name=".ShowResultActivity" />
-        <activity android:name=".UpdateActivity" />
         <activity android:name=".LuckyNumberActivity" />
     </application>
 

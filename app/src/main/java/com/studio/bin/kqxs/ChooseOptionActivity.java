@@ -150,9 +150,9 @@ public class ChooseOptionActivity extends AppCompatActivity {
         }
 
         if ((3 - countQuay) > 0) {
-            btnNoSo.setText("SOI CẦU (" + (3 - countQuay) + ")");
+            btnNoSo.setText("Nổ Số (" + (3 - countQuay) + ")");
         } else {
-            btnNoSo.setText("SOI CẦU");
+            btnNoSo.setText("Nổ Số");
         }
 
         final int finalCountQuay = countQuay;
@@ -165,13 +165,13 @@ public class ChooseOptionActivity extends AppCompatActivity {
                     final String valueRs = shareResult.getString("VALUE_RS", "");
 
                     if (currentDate.equals(dateNo)) {
-                       // showDialogNoSo(dateNo, valueRs);
-                        textNote.setText("Bạn cần nâng cấp VIP để mở khóa tính năng này !");
+                        showDialogNoSo(dateNo, valueRs);
+                        //textNote.setText("Bạn cần nâng cấp VIP để mở khóa tính năng này !");
                     } else {
-                        textNote.setText("Hãy quay lại vào khoảng thời gian từ 16h20 - 17h hằng ngày !");
+                        textNote.setText("Hãy quay lại vào khoảng thời gian sau 15h20 hằng ngày !");
                     }
                 } else {
-                    textNote.setText("Bạn cần thực hiện quay số ít nhất 3 lần và nâng cấp VIP để mở khóa tính năng này !");
+                    textNote.setText("Bạn cần thực hiện quay số ít nhất 3 lần để mở khóa tính năng này !");
                 }
             }
         });
@@ -438,6 +438,15 @@ public class ChooseOptionActivity extends AppCompatActivity {
         });
     }
 
+    private void firebaseAnalysClick(String event, String type) {
+
+        // [START image_view_event]
+        Bundle bundle = new Bundle();
+        bundle.putString("value", event);
+        bundle.putString("type", type);
+        mFirebaseAnalytics.logEvent(event, bundle);
+        bundle.clear();
+    }
 
     private void showDialogNoSo(final String date, final String value) {
         LayoutInflater li = LayoutInflater.from(ChooseOptionActivity.this);
@@ -477,6 +486,7 @@ public class ChooseOptionActivity extends AppCompatActivity {
                         .streamFor(300, 5000L);
             }
         }, 3000);
+        firebaseAnalysClick("no_so", "no_so");
         alertDialogBuilder.show();
     }
 
